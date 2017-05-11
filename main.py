@@ -15,7 +15,6 @@ turtle.screensize(canvwidth=canvaswidth, canvheight=canvasheight)
 turtle.setworldcoordinates(0,0,canvaswidth,canvasheight)
 
 
-
 #print("hello")
 
 
@@ -38,16 +37,19 @@ def createMember(start_area,bredDNA):
 
 
 def giveShake():
-    return random.randint(-20,20)
+    return random.randint(-10,10)
 
 
 
 
 class DNA:
     def __init__(self):
-        self.shake = random.randint(0, 2)
-        self.xMove = random.randint(0, 20)
+        self.shake = random.uniform(0,3)
+        self.xMove = random.randint(-20, 20)
         self.yMove = random.randint(-10, 10)
+
+        #self.xstart = random.randint(0, canvaswidth * start_area)
+        #self.ystart = random.randint(0, canvasheight)
 
 
 
@@ -91,7 +93,9 @@ def executeBehavior(population):
     for i in range(len(population)):
         population[i].goto(population[i].xcor()+population[i].behavior[0]+population[i].giveShake()*population[i].shakeFactor
                            ,population[i].ycor()+population[i].behavior[1]+population[i].giveShake()*population[i].shakeFactor)
-        population[i].weight = math.sqrt((population[i].xcor()-population[i].start_x)**2 + (population[i].ycor()-population[i].start_y)**2)
+        population[i].weight = max(population[i].xcor() - population[i].start_x,0)
+        #print(population[i].weight)
+        #population[i].weight = math.sqrt((population[i].xcor()-population[i].start_x)**2 + (population[i].ycor()-population[i].start_y)**2)
         #print(population[i].weight)
 
 def getDNAWeights(pop):
@@ -142,9 +146,11 @@ def logMeanMax(dna_weights):
     return(a1,a2)
 
 
-popSize = 10
-cycles = 10
-generations = 50
+popSize = 60
+cycles = 20
+generations = 20
+
+s = time.time()
 
 
 print("round","mean","max")
@@ -153,20 +159,27 @@ for i in range(generations):
     if i==0:
         population = createPop(popSize)
     else:
-        population = breepPop(10, population)
+        population = breepPop(popSize, population)
     for j in range(cycles):
         executeBehavior(population)
     c = logMeanMax(getDNAWeights(population))
     print(i,c)
+    q = getDNAWeights(population)
+    print(q[2])
+    print(q[0][0].__dict__)
+    print(q[0][1].__dict__)
 
 
 print(lMean)
 print(lMax)
 
+e = time.time()
+print("Time")
+print(e-s)
 
 
-wn.bye()
-#wn.exitonclick()
+#wn.bye()
+wn.exitonclick()
 
 
 import pylab
