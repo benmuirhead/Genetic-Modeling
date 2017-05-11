@@ -50,8 +50,7 @@ fabric.properties
 
 
 
-.xml
+*.xml
 
-.idea\misc.xml
 
-.iml
+*.iml
