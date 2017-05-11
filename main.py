@@ -114,7 +114,6 @@ def getDNAWeights(pop):
 def breepPop(count,oldPop):
     population = []
     dna_weights = getDNAWeights(oldPop)
-    logMeanMax(dna_weights)
     for i in range(count):
         draw = numpy.random.choice(dna_weights[0], 2, p=dna_weights[1])
         bredDNA = breedDNA(draw[0],draw[1])
@@ -140,15 +139,15 @@ def logMeanMax(dna_weights):
     a2=round(numpy.max(dna_weights[2]),0)
     lMean.append(a1)
     lMax.append(a2)
-    print(a1,a2)
+    return(a1,a2)
 
 
 popSize = 10
-cycles = 2
-generations = 1
+cycles = 10
+generations = 50
 
 
-
+print("round","mean","max")
 for i in range(generations):
     wn.clear()
     if i==0:
@@ -157,7 +156,8 @@ for i in range(generations):
         population = breepPop(10, population)
     for j in range(cycles):
         executeBehavior(population)
-
+    c = logMeanMax(getDNAWeights(population))
+    print(i,c)
 
 
 print(lMean)
@@ -165,5 +165,16 @@ print(lMax)
 
 
 
-#wn.bye()
-wn.exitonclick()
+wn.bye()
+#wn.exitonclick()
+
+
+import pylab
+#pylab.__version__
+
+
+pylab.plot(list(range(generations)),lMean)
+pylab.show()
+
+pylab.plot(list(range(generations)),lMax)
+pylab.show()
