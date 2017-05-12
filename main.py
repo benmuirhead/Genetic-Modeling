@@ -18,7 +18,7 @@ turtle.setworldcoordinates(0,0,canvaswidth,canvasheight)
 
 
 
-print(math.sqrt((450-500)**2 + (450-500)**2))
+
 
 def executeBehavior(population):
     for i in range(len(population)):
@@ -28,6 +28,7 @@ def executeBehavior(population):
         #print(math.sqrt((population[i].xcor()-500)**2 + (population[i].ycor()-500)**2))
         if math.sqrt((population[i].xcor()-500)**2 + (population[i].ycor()-500)**2) < 150:
             population[i].obsTrip = 1
+            population[i].color("red")
 
         #print(population[i].weight)
         #population[i].weight = math.sqrt((population[i].xcor()-500)**2 + (population[i].ycor()-500)**2)
@@ -43,6 +44,7 @@ def logMeanMax(dna_weights):
 
 def createObstacle(radius, centerX, centerY):
     obs = turtle.Turtle()
+    obs.hideturtle()
     obs.speed(0)
     obs.penup()
     obs.goto(centerX,centerY-radius)
@@ -63,7 +65,7 @@ lMean=[]
 lMax=[]
 
 popSize = 20
-cycles = 5
+cycles = 15
 generations = 50
 
 s = time.time()

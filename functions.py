@@ -7,21 +7,28 @@ import time
 import numpy
 
 
-def createMember(start_area,bredDNA,canvaswidth,canvasheight):
+def createMember(start_area,DNA,canvaswidth,canvasheight):
     member = turtle.Turtle()
-    member.start_x = random.randint(0,canvaswidth*start_area)
-    member.start_y = random.randint(0,canvasheight)
-    member.speed(0)
-    member.penup()
-    member.goto(member.start_x,member.start_y)
 
-    member.dna = bredDNA
+
+
+
+    member.dna = DNA
     member.behavior = [member.dna.xMove,member.dna.yMove]
     member.shakeFactor = member.dna.shake
+
+    member.start_x = member.dna.xstart
+    member.start_y = member.dna.ystart
 
     member.giveShake = giveShake
     member.weight=0
     member.obsTrip = 0
+
+
+    member.speed(0)
+    member.penup()
+    member.goto(member.start_x,member.start_y)
+
     return member
 
 
@@ -34,12 +41,13 @@ def giveShake():
 
 class DNA:
     def __init__(self):
+        range = 0
         self.shake = random.uniform(0,3)
         self.xMove = random.randint(0, 60)
         self.yMove = random.randint(-10, 10)
 
-        #self.xstart = random.randint(0, canvaswidth * start_area)
-        #self.ystart = random.randint(0, canvasheight)
+        self.xstart = random.randint(0, 300)
+        self.ystart = random.randint(0+range, 1000-range)
 
 
 
@@ -58,9 +66,16 @@ def breedDNA(dna1,dna2):
         newDNA.xMove = dna2.xMove
 
     if random.randint(0,1) ==0:
-        newDNA.yMove = dna1.yMove
+        newDNA.xstart = dna1.xstart
     else:
-        newDNA.yMove = dna2.yMove
+        newDNA.xstart = dna2.xstart
+
+    if random.randint(0,1) ==0:
+        newDNA.ystart = dna1.ystart
+    else:
+        newDNA.ystart = dna2.ystart
+
+
 
     return newDNA
 
